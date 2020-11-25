@@ -1,11 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	tr.m:hover {background-color:#ffff00;}
+</style>
 </head>
 <body>
 <div align="center">
@@ -20,7 +25,7 @@
 		</tr>
 	<%--수정필요 <c:forEach 로 반복처리 필요 --%>
 		<c:forEach var="vo" items="${list }">
-		<tr>
+		<tr class="m" onclick="location.href='/Board/BorderRead.do?id=${vo.borderId }'">
 			<td> ${vo.borderId }</td>
 			<td> ${vo.borderTitle }</td>
 			<td> ${vo.borderWrite }</td>

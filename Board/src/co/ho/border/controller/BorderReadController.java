@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import co.ho.border.command.BorderList;
-import co.ho.common.BorderCommand;
+import co.ho.border.dao.BorderDao;
+import co.ho.border.vo.BorderVo;
 
 /**
- * Servlet implementation class BorderController
+ * Servlet implementation class BorderListController
  */
-@WebServlet("/Border.do")
-public class BorderController extends HttpServlet {
+@WebServlet("/BorderRead.do")
+public class BorderReadController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BorderController() {
+    public BorderReadController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,21 +31,28 @@ public class BorderController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doPost(request,response);
+		// command 없이 여기서 다 처리 하는 방법으로 구현
+		request.setCharacterEncoding("utf-8");
+		BorderDao dao = new BorderDao();
+		BorderVo vo = new BorderVo();
+		
+		vo.setBorderId(Integer.valueOf(request.getParameter("id")));
+		vo= dao.selectOne(vo);
+		
+		request.setAttribute("vo", vo);
+		String viewPage = "jsp/border/borderRead.jsp";
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
+		dispatcher.forward(request, response);
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 여기가 게시판 관련 처리
-		request.setCharacterEncoding("utf-8"); //한글처리
-		BorderCommand command = new BorderList(); //실행명령 선언
-		String viewPage = command.action(request, response); //실행명령 호출
-		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage); //보여줄 페이지 선택
-		dispatcher.forward(request, response); 
-		
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }
