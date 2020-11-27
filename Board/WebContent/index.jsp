@@ -15,7 +15,7 @@
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
   <!-- Brand/logo -->
-  <a class="navbar-brand" href="#">Logo</a>
+  <a class="navbar-brand" href="BorderList.do">Logo</a>
   
   <!-- Links -->
   <ul class="navbar-nav">

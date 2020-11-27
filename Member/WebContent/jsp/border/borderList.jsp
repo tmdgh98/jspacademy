@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<jsp:include page="/jsp/menu/menu.jsp"></jsp:include>
 
 <!DOCTYPE html>
 <html>
@@ -26,7 +26,7 @@
 	<%--수정필요 <c:forEach 로 반복처리 필요 --%>
 	
 		<c:forEach var="vo" items="${list }">
-		<tr class="m" onclick="location.href='/Board/BorderRead.do?id=${vo.borderId }'">
+		<tr class="m" onclick="location.href='/Member/BorderRead.do?id=${vo.borderId }'">
 			<td> ${vo.borderId }</td>
 			<td> ${vo.borderTitle }</td>
 			<td> ${vo.borderWrite }</td>
