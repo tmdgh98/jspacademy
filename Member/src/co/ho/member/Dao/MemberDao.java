@@ -26,6 +26,10 @@ public class MemberDao {
     private final String selectAll = "SELECT * FROM MEMBER";
     private final String selectId = "SELECT * FROM MEMBER WHERE MEMBERID = ?";
     private final String update = "UPDATE MEMBER SET MEMBERAUTH = ?, MEMBERPOINT = ?, PASSWORD=? WHERE MEMBERID =?";
+    private final String addUser = "insert into member values(?, ?, ?, 'user', default)";
+    private final String idCheck = "select * from member where memberid = ?";
+    private final String startMemberId = "select borderid from border where rownum=1 order by 1 desc";
+    
     
     public MemberDao() {
 		// TODO Auto-generated constructor stub
@@ -113,6 +117,18 @@ public class MemberDao {
     
     public int insert(MemberVo vo) {
     	int n = 0;
+    	try {
+			psmt = conn.prepareStatement(addUser);
+			psmt.setString(1, vo.getMemberId());
+			psmt.setString(2, vo.getMemberName());
+			psmt.setString(3, vo.getPassword());
+			n = psmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     	
     	return n;
     }
@@ -132,5 +148,21 @@ public class MemberDao {
 		}
     	
     	return n;
+    }
+    
+    public boolean idCheck(String id) {
+    	try {
+			psmt = conn.prepareStatement(idCheck);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				return false; //아이디 중복
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	return true;// 아이디 중복 없음
     }
 }

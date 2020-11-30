@@ -17,13 +17,13 @@
 					<tr>
 						<th width="100">아 이 디</th>
 						<td width="200">
-							<input type="text" id="mid" name="mid" size="20">
+							<input type="text" id="mid" name="mid" size="20" placeholder="아이디">
 						</td>
 					</tr>
 					<tr>
 						<th width="100">비밀번호</th>
 						<td width="200">
-							<input type="password" id="password" name="password" size="20">
+							<input type="password" id="password" name="password" size="20" placeholder="비밀번호">
 						</td>
 					</tr>
 				</table>

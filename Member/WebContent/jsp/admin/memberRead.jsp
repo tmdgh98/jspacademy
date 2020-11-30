@@ -26,7 +26,7 @@
 <body>
 	<div align="center">
 		<form action="#" method="post" id="frm" name="frm">
-		<div><h1>글 상세 보기</h1></div>
+		<div><h1>회원 상세</h1></div>
 		<div>
 			<table border="1">
 				<tr>
@@ -60,8 +60,8 @@
 		</div>
 		<br />
 			<input type="hidden" id = "id" name="id" value="${vo.memberId }">
-			<button type="button" onclick="formSumit(1)">글 수정</button>&nbsp;
-			<button type="button" onclick='formSumit(2)'>글 삭제</button>&nbsp;
+			<button type="button" onclick="formSumit(1)">회원정보 수정</button>&nbsp;
+			<button type="button" onclick='formSumit(2)'>회원 삭제</button>&nbsp;
 			<button type="button" onclick="location.href='/Member/MemberList.do'">목록보기</button>
 		</form>
 	</div>

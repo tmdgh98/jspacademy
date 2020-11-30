@@ -28,17 +28,15 @@
 					<li><a href="#">2-2</a></li>
 				</ul>
 			</li>
-			<li><a href="#">메인메뉴3</a></li>
+			<c:if test="${id eq null || auth eq null}">
+			<li><a href="/Member/jsp/member/joinMember.jsp">회원가입</a></li>
+			</c:if>
 			<li><a href="/Member/BorderList.do">자유게시판</a></li>
 			<c:if test="${auth eq 'admin' }">
 				<li><a href="#">기본정보관리</a>
 					<ul>
 						<li><a href="/Member/MemberList.do">회원관리</a></li>
 						<li><a href="#">3-2</a></li>
-						<li><a href="#">3-3</a></li>
-						<li><a href="#">3-4</a></li>
-						<li><a href="#">3-5</a></li>
-						<li><a href="#">3-6</a></li>
 					</ul>
 				</li>
 			</c:if>

@@ -17,7 +17,7 @@
 	<h1>회 원 목 록</h1>
 	<table border = 1>
 		<tr>
-			<th width="100px">회원번호</th>
+			<th width="100px">아이디</th>
 			<th width="100px">이 름</th>
 			<th width="100px">권 한 </th>
 			<th width="100px">포인트</th>
