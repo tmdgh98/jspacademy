@@ -1,9 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,16 +11,16 @@ import bbs.Bbs;
 import bbs.BbsDao;
 
 /**
- * Servlet implementation class List
+ * Servlet implementation class Search
  */
-@WebServlet("/List.do")
-public class List extends HttpServlet {
+@WebServlet("/Search.do")
+public class Search extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public List() {
+    public Search() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,21 +32,9 @@ public class List extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		Bbs vo = new Bbs();
 		BbsDao dao = new BbsDao();
-		ArrayList<Bbs> list = new ArrayList<Bbs>();
-		int pageNumber = 1;
-		if(request.getParameter("pageNumber") != null) {
-			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-		}
-		if(pageNumber<1) pageNumber =1;
-		if(!dao.nextPage(pageNumber)) {
-			pageNumber--;
-		}
-		list = dao.getList(pageNumber);
-		request.setAttribute("list", list);
-		request.setAttribute("pageNumber", pageNumber);
-		String path = "bbs.jsp";
-		RequestDispatcher rd = request.getRequestDispatcher(path);
-		rd.forward(request, response);
+		
+		
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**

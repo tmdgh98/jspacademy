@@ -82,11 +82,16 @@ public class BbsDao {
 	}
 	
 	public ArrayList<Bbs> getList(int pageNumber){
-		String sql = "select * from bbs where bbsid < ? and bbsdel = 1 and rownum<=10 order by bbsid desc";
+		String sql = "select b.*  from(  select a.*, rownum rn from("
+				+ "    select * "
+				+ "    from bbs"
+				+ "    order by 1 desc"
+				+ "    ) a ) b where rn between ? and ?" ;
 		ArrayList<Bbs> list = new ArrayList<Bbs>();
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, getNext() - (pageNumber - 1)*10);
+			psmt.setInt(1, (pageNumber - 1)*10+1);
+			psmt.setInt(2, pageNumber*10);
 			rs= psmt.executeQuery();
 			while(rs.next()) {
 				Bbs vo = new Bbs();
@@ -122,6 +127,41 @@ public class BbsDao {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	public ArrayList<Bbs> search(String text,String range){
+		ArrayList<Bbs> list = new ArrayList<Bbs>();
+		String sql =""; 
+		if(range.equals("title")) {
+			sql = "select b.*  from(  select a.*, rownum rn from("
+				+ "    select * "
+				+ "    from bbs"
+				+ "    where bbstitle = ?"
+				+ "    order by 1 desc"
+				+ "    ) a ) b where rn between ? and ?" ;
+		}else if(range.equals("content")) {
+			sql = "select b.*  from(  select a.*, rownum rn from("
+					+ "    select * "
+					+ "    from bbs"
+					+ "    where bbscontent = ?"
+					+ "    order by 1 desc"
+					+ "    ) a ) b where rn between ? and ?" ;
+		}else {
+			sql = "select b.*  from(  select a.*, rownum rn from("
+					+ "    select * "
+					+ "    from bbs"
+					+ "    where bbstitle = ? and bbscontent"
+					+ "    order by 1 desc"
+					+ "    ) a ) b where rn between ? and ?" ;
+		}
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 	
 	private void close() {
