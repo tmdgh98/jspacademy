@@ -23,12 +23,27 @@ public class BorderDao extends DAO{
 								  " SET BORDERDATE = ? , BORDERCONTENT = ?" + 
 								  " WHERE BORDERID = ?";
 	private final String DELETE = "DELETE FROM BORDER WHERE BORDERID = ?";
+	private final String paging = "select b.*  from(  select a.*, rownum rn from(" + 
+			"        select * " + 
+			"        from border " + 
+			"        order by 1 desc" + 
+			"    ) a ) b where rn between ? and ?";
+	private final String lastPage = "select rownum " + 
+			" from border " + 
+			" order by 1 desc";
+	private final String search = "select b.*  from(  select a.*, rownum rn from(" + 
+			"        select * " + 
+			"        from border " + 
+			"        order by 1 desc" + 
+			"    ) a ) b where rn between ? and ?";
 	
-	public ArrayList<BorderVo> selectAll(){ //전체 데이터 가져오기
+	public ArrayList<BorderVo> selectAll(int page, int n){ //전체 데이터 가져오기
 		ArrayList<BorderVo> list = new ArrayList<BorderVo>();
 		BorderVo vo;
 		try {
-			psmt = conn.prepareStatement(SELECT_ALL);
+			psmt = conn.prepareStatement(paging);
+			psmt.setInt(1, (page-1)*n+1);
+			psmt.setInt(2, page*n);
 			rs = psmt.executeQuery();
 			while(rs.next()) {
 				vo = new BorderVo();
@@ -149,6 +164,50 @@ public class BorderDao extends DAO{
 			close();
 		}
 		
+		return n;
+	}
+	
+	public ArrayList<BorderVo> listPage(int page){
+		ArrayList<BorderVo> list = new ArrayList<BorderVo>();
+		try {
+			psmt = conn.prepareStatement(paging);
+			psmt.setInt(1, (page-1)*10+1);
+			psmt.setInt(2, page*10);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				BorderVo vo = new BorderVo();
+				vo.setBorderId(rs.getInt("borderid"));
+				vo.setBorderWrite(rs.getString("borderwriter"));
+				vo.setBorderTitle(rs.getString("bordertitle"));
+				vo.setBorderContent(rs.getString("bordercontent"));
+				vo.setBorderDate(rs.getDate("borderdate"));
+				vo.setBorderHit(rs.getInt("borderhit"));
+				list.add(vo);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		
+		return list;
+	}
+	
+	public int lastPage() {
+		int n = 0;
+		try {
+			psmt = conn.prepareStatement(lastPage);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				n = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println();
 		return n;
 	}
 

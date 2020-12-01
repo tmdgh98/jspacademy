@@ -19,8 +19,20 @@ public class BorderList implements BorderCommand {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		BorderDao dao = new BorderDao();
-		ArrayList<BorderVo> list = dao.selectAll();
+		int page = 1;
+		int pageNum =10;
+		int lastPage = dao.lastPage();
+		if(request.getParameter("inpage")!=null) {
+		  pageNum= Integer.parseInt(request.getParameter("npage")); 
+		  page = Integer.parseInt(request.getParameter("inpage"));
+		}
+		ArrayList<BorderVo> list = dao.selectAll(page,pageNum);
+		lastPage = lastPage/pageNum+1;
+		
+		request.setAttribute("page", page);
 		request.setAttribute("list", list);
+		request.setAttribute("lastPage", lastPage);
+		request.setAttribute("pageNum", pageNum);
 		return "jsp/border/borderList.jsp";
 	}
 

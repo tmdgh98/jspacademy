@@ -16,18 +16,17 @@
 			<c:if test="${id eq null || auth eq null}">
 				<li><a href="/Member/jsp/member/loginForm.jsp">로그인</a></li>
 			</c:if>
-			<li><a href="#">메인메뉴1</a>
-				<ul>
-					<li><a href="#">마이페이지</a></li>
-					<li><a href="#">게시판</a></li>
-				</ul>
-			</li>
+			<c:if test="${id ne null && auth ne null}">
+			<li><a href="#">마이페이지</a></li>
+			</c:if>
+			<c:if test="${id ne null && auth eq 'user'}">
 			<li><a href="#">메인메뉴2</a>
 				<ul>
-					<li><a href="#">2-1</a></li>
+					<li><a href="/Member/NoticeList.do">공지사항</a></li>
 					<li><a href="#">2-2</a></li>
 				</ul>
 			</li>
+			</c:if>
 			<c:if test="${id eq null || auth eq null}">
 			<li><a href="/Member/jsp/member/joinMember.jsp">회원가입</a></li>
 			</c:if>
@@ -36,7 +35,7 @@
 				<li><a href="#">기본정보관리</a>
 					<ul>
 						<li><a href="/Member/MemberList.do">회원관리</a></li>
-						<li><a href="#">3-2</a></li>
+						<li><a href="/Member/NoticeList.do">공지사항관리</a></li>
 					</ul>
 				</li>
 			</c:if>
