@@ -163,6 +163,26 @@ public class BbsDao {
 		
 		return list;
 	}
+	public Bbs read(Bbs vo) {
+		String sql = "select * from bbs where bbsid = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, vo.getBbsID());
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				vo.setBbsTitle(rs.getString(2));
+				vo.setUserID(rs.getString(3));
+				vo.setBbsDate(rs.getString(4));
+				vo.setBbsContent(rs.getString(5));
+				vo.setBbsDel(rs.getInt(6));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return vo;
+	}
 	
 	private void close() {
 		try {
