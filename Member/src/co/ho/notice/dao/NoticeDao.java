@@ -59,9 +59,11 @@ public class NoticeDao {
 				vo.setNoticeId(rs.getInt("noticeid"));
 				vo.setNoticeWriter(rs.getString("noticewriter"));
 				vo.setNoticeTitle(rs.getString("noticetitle"));
-				vo.setNoticeContent(rs.getString(4));
-				vo.setNoticeHit(rs.getInt(5));
-				vo.setNoticeDate(rs.getDate(6));
+				vo.setNoticeContent(rs.getString("noticecontent"));
+				vo.setNoticeHit(rs.getInt("noticehit"));
+				vo.setNoticeAttech(rs.getString("noticeattach"));
+				vo.setNoticeDate(rs.getDate("noticedate"));
+				list.add(vo);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
