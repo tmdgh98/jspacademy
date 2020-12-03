@@ -65,10 +65,10 @@ public class BbsDao {
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, getNext());
-			psmt.setString(2, vo.getBbsTitle());
+			psmt.setString(2, vo.getBbsTitle());  
 			psmt.setString(3, vo.getUserID());
 			psmt.setString(4, getDate());
-			psmt.setString(5, vo.getBbsTitle());
+			psmt.setString(5, vo.getBbsContent());
 			psmt.setInt(6, 1);
 			return psmt.executeUpdate();
 			
@@ -85,6 +85,7 @@ public class BbsDao {
 		String sql = "select b.*  from(  select a.*, rownum rn from("
 				+ "    select * "
 				+ "    from bbs"
+				+ "    where bbsdel = 1"
 				+ "    order by 1 desc"
 				+ "    ) a ) b where rn between ? and ?" ;
 		ArrayList<Bbs> list = new ArrayList<Bbs>();
@@ -182,6 +183,35 @@ public class BbsDao {
 		}
 		
 		return vo;
+	}
+	
+	public int delete(int id) {
+		int n = 0;
+		String sql ="update bbs set bbsdel = 0 where bbsid = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, id);
+			n = psmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return n;
+	}
+	public int update(Bbs vo) {
+		int n = 0;
+		String sql = "update bbs set bbstitle = ?, bbscontent = ? where bbsid = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getBbsTitle());
+			psmt.setString(2, vo.getBbsContent());
+			psmt.setInt(3, vo.getBbsID());
+			n = psmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return n;
 	}
 	
 	private void close() {

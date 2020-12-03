@@ -43,10 +43,9 @@
 			</table>
 			<a href="List.do" class="btn btn-primary">목록</a>
 			<c:if test="${userID eq vo.userID }">
-				<a href="Update.do?id=${userID }" class="btn btn-primary">글수정</a>
-				<a href="Delete.do?id=${userID }" class="btn btn-primary">글삭제</a>
+				<a href="UpdateMove.do?id=${vo.bbsID }" class="btn btn-primary pull-right">글수정</a>
+				<a href="Delete.do?id=${vo.bbsID }" class="btn btn-primary pull-right">글삭제</a>
 			</c:if>
-			<input type="submit" class="btn btn-primary pull-right" value="글쓰기">
 		</div>
 	</div>
 
