@@ -33,6 +33,7 @@ public class MovieRequest {
 		for (int i = 0; i < arr.size(); i++) {
 			obj = arr.getJSONObject(i);
 			System.out.println(obj.getString("movieNm"));
+			System.out.println(obj.getString("movieCd"));
 		}
 	}
 	
