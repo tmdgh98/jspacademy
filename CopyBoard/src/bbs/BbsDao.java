@@ -129,34 +129,34 @@ public class BbsDao {
 		}
 		return false;
 	}
-	public ArrayList<Bbs> search(String text,String range){
+	public ArrayList<Bbs> search(String select, String text,int pageNumber){
 		ArrayList<Bbs> list = new ArrayList<Bbs>();
-		String sql =""; 
-		if(range.equals("title")) {
-			sql = "select b.*  from(  select a.*, rownum rn from("
-				+ "    select * "
-				+ "    from bbs"
-				+ "    where bbstitle = ?"
-				+ "    order by 1 desc"
-				+ "    ) a ) b where rn between ? and ?" ;
-		}else if(range.equals("content")) {
-			sql = "select b.*  from(  select a.*, rownum rn from("
-					+ "    select * "
-					+ "    from bbs"
-					+ "    where bbscontent = ?"
-					+ "    order by 1 desc"
-					+ "    ) a ) b where rn between ? and ?" ;
-		}else {
-			sql = "select b.*  from(  select a.*, rownum rn from("
-					+ "    select * "
-					+ "    from bbs"
-					+ "    where bbstitle = ? and bbscontent"
-					+ "    order by 1 desc"
-					+ "    ) a ) b where rn between ? and ?" ;
-		}
+		String sql = "select b.*  from(  select a.*, rownum rn from("
+				+ "   select * "
+				+ "   from bbs"
+				+ "   where "+ select +" like ?"
+				+ "   and bbsdel = 1"
+				+ "   order by 1 desc"
+				+ "   ) a ) b where rn between ? and ?" ;
+		text = "%"+text+"%";
 		
+		System.out.println(select + text);
 		try {
 			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, text);
+			psmt.setInt(2, (pageNumber - 1)*10+1);
+			psmt.setInt(3, pageNumber*10);
+			rs= psmt.executeQuery();
+			while(rs.next()) {
+				Bbs vo = new Bbs();
+				vo.setBbsID(rs.getInt(1));
+				vo.setBbsTitle(rs.getString(2));
+				vo.setUserID(rs.getString(3));
+				vo.setBbsDate(rs.getString(4));
+				vo.setBbsContent(rs.getString(5));
+				vo.setBbsDel(rs.getInt(6));
+				list.add(vo);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

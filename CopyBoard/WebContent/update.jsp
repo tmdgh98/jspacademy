@@ -34,6 +34,7 @@
 						</tr>
 					</tbody>
 				</table>
+				<input type="hidden" name="id" value="${vo.bbsID }">
 				<input type="reset" class="btn btn-primary pull-right" value="취소">
 				<input type="submit" class="btn btn-primary pull-right" value="수정">
 			</form>

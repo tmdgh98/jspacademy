@@ -43,16 +43,18 @@
 		</table>
 		<a href="List.do?pageNumber=${pageNumber-1}" class="btn btn-success btn-arrow-left">이전</a>
 		<a href="List.do?pageNumber=${pageNumber+1}" class="btn btn-success btn-arrow-left">다음</a>
-		<select id="search-select">
-			<option value="title">제목에서</option>
-			<option value="content">내용에서</option>
-			<option value="titleContent">제목+내용</option>
-		</select>
-		<input id="search-input" type="text" placeholder="검색어를 입력하세요" autocomplete="off" class="inp_search">
-		<button id="search-btn" type="button" class="btn btn-primary" onclick="search()">검색하기</button>
 		<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
 		
-			
+		<form action="List.do" method="post">
+			<input type="hidden" id="hiddenSearch" name="hiddenSearch" value="${search }">
+			<select id="search-select" name="search-select">
+				<option value="bbstitle">제목에서</option>
+				<option value="bbscontent">내용에서</option>
+				<option value="userid">작성자</option>
+			</select>
+			<input id="search-input" name="search-input" type="text" placeholder="검색어를 입력하세요" autocomplete="off" class="inp_search">
+			<button id="search-btn" type="submit" class="btn btn-primary" onclick="search()">검색하기</button>
+		</form>
 		
 	</div>
 </div>
@@ -60,26 +62,21 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.js"></script>
 <script type="text/javascript">
-	function search(){
-		if($("#search-input").val()==""){
-			alert("검색어를 입력해주세요.");
-		}else{
-			let range = $("#search-select").val();
-			let text = $("#search-input").val();
-			$.ajax({
-				url:"Search.do",
-				type:"post",
-				data:{
-					range : range,
-					text : text
-				},
-				success : function(data){
-					
-				}
-			})
-		}
+	$(function(){
 		
-	}
+		let select = "<c:out value='${select}' />";
+		let input = "<c:out value='${input}' />";
+		console.log($("#hiddenSearch").val());
+		if($("#hiddenSearch").val()!=""){
+			console.log(select, input)
+			$("#search-select").val(select);
+			$("#search-input").val(input);
+		
+		}
+	})
+	function search(){
+			$("#hiddenSearch").val("gogo");
+		}
 </script>
 </body>
 </html>

@@ -31,7 +31,12 @@ public class Update extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Bbs vo = new Bbs();
 		BbsDao dao = new BbsDao();
+		vo.setBbsID(Integer.parseInt(request.getParameter("id")));
+		vo.setBbsTitle(request.getParameter("bbsTitle"));
+		vo.setBbsContent(request.getParameter("bbsContent"));
+		dao.update(vo);
 		
+		response.sendRedirect("List.do");
 	}
 
 	/**

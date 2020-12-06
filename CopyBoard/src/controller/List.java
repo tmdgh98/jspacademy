@@ -44,10 +44,22 @@ public class List extends HttpServlet {
 		if(!dao.nextPage(pageNumber)) {
 			pageNumber--;
 		}
-		list = dao.getList(pageNumber);
+		String search = null;
+		if(request.getParameter("hiddenSearch")!=null) {;
+			search = request.getParameter("hiddenSearch");
+			String select = request.getParameter("search-select");
+			String content = request.getParameter("search-input");
+			System.out.println(search);
+			request.setAttribute("select", select);
+			request.setAttribute("input", content);
+			list = dao.search(select, content, pageNumber);
+		}else {
+			list = dao.getList(pageNumber);			
+		}
+		request.setAttribute("search", search);
 		request.setAttribute("list", list);
 		request.setAttribute("pageNumber", pageNumber);
-		String path = "bbs.jsp";
+		String path = "list.jsp";
 		RequestDispatcher rd = request.getRequestDispatcher(path);
 		rd.forward(request, response);
 	}
