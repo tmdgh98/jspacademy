@@ -214,6 +214,50 @@ public class BbsDao {
 		return n;
 	}
 	
+	public int lastPage() {
+		String lastPage = "select rownum " + 
+				" from bbs"+ 
+				" where bbsdel = 1 " + 
+				" order by 1 desc";
+		int n = 0;
+		try {
+			psmt = conn.prepareStatement(lastPage);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				n = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(n);
+		
+		return n;
+	}
+	public int searchLastPage(String select, String text) {
+		int n = 0;
+		String lastPage = "select rownum " + 
+				" from bbs"+ 
+				" where bbsdel = 1 "+ 
+				" and "+ select +" like ? " + 
+				" order by 1 desc";
+		text = "%"+text+"%";
+		try {
+			psmt = conn.prepareStatement(lastPage);
+			psmt.setString(1, text);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				n = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(n);
+		
+		return n;
+	}
+	
 	private void close() {
 		try {
 			if(rs != null) rs.close();
@@ -224,4 +268,6 @@ public class BbsDao {
 			e.printStackTrace();
 		}
 	}
+
+	
 }

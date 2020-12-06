@@ -37,6 +37,7 @@ public class List extends HttpServlet {
 		BbsDao dao = new BbsDao();
 		ArrayList<Bbs> list = new ArrayList<Bbs>();
 		int pageNumber = 1;
+		int lastPage =1;
 		if(request.getParameter("pageNumber") != null) {
 			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 		}
@@ -52,10 +53,15 @@ public class List extends HttpServlet {
 			System.out.println(search);
 			request.setAttribute("select", select);
 			request.setAttribute("input", content);
+			lastPage = dao.searchLastPage(select,content);
 			list = dao.search(select, content, pageNumber);
 		}else {
+			lastPage = dao.lastPage();
 			list = dao.getList(pageNumber);			
 		}
+		lastPage = lastPage/10 + 1;
+		
+		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("search", search);
 		request.setAttribute("list", list);
 		request.setAttribute("pageNumber", pageNumber);

@@ -41,11 +41,12 @@
 			</tbody>
 			
 		</table>
-		<a href="List.do?pageNumber=${pageNumber-1}" class="btn btn-success btn-arrow-left">이전</a>
-		<a href="List.do?pageNumber=${pageNumber+1}" class="btn btn-success btn-arrow-left">다음</a>
+		<input type="button" value="이 전" onclick="paging('minus')" class="btn btn-success btn-arrow-left">
+		<input type="button" value="다 음" onclick="paging('plus')" class="btn btn-success btn-arrow-left">
 		<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
 		
-		<form action="List.do" method="post">
+		<form action="List.do" method="post" id="hiddenForm">
+			<input type="hidden" id="page" name="pageNumber" value="${pageNumber }">
 			<input type="hidden" id="hiddenSearch" name="hiddenSearch" value="${search }">
 			<select id="search-select" name="search-select">
 				<option value="bbstitle">제목에서</option>
@@ -62,21 +63,39 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.js"></script>
 <script type="text/javascript">
-	$(function(){
-		
-		let select = "<c:out value='${select}' />";
-		let input = "<c:out value='${input}' />";
-		console.log($("#hiddenSearch").val());
-		if($("#hiddenSearch").val()!=""){
-			console.log(select, input)
-			$("#search-select").val(select);
-			$("#search-input").val(input);
-		
-		}
-	})
+	let select = "<c:out value='${select}' />";
+	let input = "<c:out value='${input}' />";
+	
+	if($("#hiddenSearch").val()!=""){
+		console.log(select, input)
+		$("#search-select").val(select);
+		$("#search-input").val(input);
+	
+	}
+	
 	function search(){
-			$("#hiddenSearch").val("gogo");
+			$("#hiddenSearch").val("ing");
+	}
+	
+	function paging(str){
+		let lastPage = "<c:out value='${lastPage}' />";
+		if(str=='minus'){
+			if($("#page").val()!="1"){
+				$("#page").val($("#page").val()-1);
+			}else{
+				alert("첫 페이지 입니다.")
+			}
+		}else if(str=="plus"){
+			if($("#page").val()==lastPage){
+				alert("마지막 페이지 입니다.")
+			}else{			
+				$("#page").val(Number($("#page").val())+1);
+			} 
 		}
+		
+		$("#hiddenForm").submit(); 
+			
+	}
 </script>
 </body>
 </html>
