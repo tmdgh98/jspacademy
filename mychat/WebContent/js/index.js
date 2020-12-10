@@ -19,91 +19,60 @@ App={
 					return App.initContract();
 	},
 	initContract : function(){
-				    App.contract = new web3.eth.Contract([
-					    {
-					      "anonymous": false,
-					      "inputs": [
-					        {
-					          "indexed": false,
-					          "internalType": "string",
-					          "name": "name",
-					          "type": "string"
-					        },
-					        {
-					          "indexed": false,
-					          "internalType": "string",
-					          "name": "message",
-					          "type": "string"
-					        },
-					        {
-					          "indexed": false,
-					          "internalType": "uint256",
-					          "name": "timeStamp",
-					          "type": "uint256"
-					        }
-					      ],
-					      "name": "chat",
-					      "type": "event"
-					    },
-					    {
-					      "inputs": [
-					        {
-					          "internalType": "string",
-					          "name": "_name",
-					          "type": "string"
-					        },
-					        {
-					          "internalType": "string",
-					          "name": "_msg",
-					          "type": "string"
-					        }
-					      ],
-					      "name": "setChat",
-					      "outputs": [],
-					      "stateMutability": "nonpayable",
-					      "type": "function"
-					    },
-					    {
-					      "inputs": [],
-					      "name": "getChat",
-					      "outputs": [
-					        {
-					          "internalType": "string",
-					          "name": "",
-					          "type": "string"
-					        },
-					        {
-					          "internalType": "string",
-					          "name": "",
-					          "type": "string"
-					        },
-					        {
-					          "internalType": "uint256",
-					          "name": "",
-					          "type": "uint256"
-					        }
-					      ],
-					      "stateMutability": "view",
-					      "type": "function",
-					      "constant": true
-					    }
-					  ]);
+				    App.contract = new web3.eth.Contract(abi);
 					App.contract.options.address = "0xF2F6b4e111e8017174ef338feF46b4858de81d44";
+					
+					App.getChat();
 
 	},
 	setChat : function(){
-		$('#button').on('click',function(){
-			contract.method.setChat($('#name').val(), $('#chatting').val());
-			$("msg").append($("<p />").html($('#name').val()+" "+$('#chatting').val()));		
+		event.preventDefault();
+		
+		var name = $('#name').val();
+		var msg = $('#chatting').val();
+		
+		
+		web3.eth.getAccounts(function(error, accounts){
+			if(error){
+				console.log(error);
+				return;
+			}
+			var account = accounts[0];
+			
+			return App.contract.methods.setChat(name,msg)
+									  //.send({from: account}, function(err,result){} );
+									  .send({from:account})
+									  .then(function(result){console.log(result)});
 		})
 	},
 	getChat: function(){
-		contract.method.chat().watch((err, res) => {
+		
+		App.contract.events.chat({}, function(err,res){
+			console.log(res);
+			if(!err){
+				let name = res.returnValues.message; //디코딩
+				
+				const div = document.createElement('div');
+				div.className = 'card';
+				const date = new Date(parseInt(res.returnValues.timeStamp)*1000);
+				const string = `
+					<h5 class="card-header">${res.returnValues.name}</h5>
+					<div class="card-body">
+						<h5 class="card-title">${res.returnValues.message}</h5>
+						<p class="card-text">${date}</p>
+					</div>	
+					`;
+				div.innerHTML = string;
+				$('#msg').append(div);
+			}
+			else console.log(err);
+		})
+		/*contract.method.chat().watch((err, res) => {
 			//res출력
 			contract.method.getChat().then(function(data){
 				console.log(data);
 			});
-		});
+		});*/
 	}
 }
 
