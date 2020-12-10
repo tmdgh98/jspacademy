@@ -21,7 +21,7 @@
 				usergender varchar2(20),
 				useremail varchar2(20));</p>
 			<p>create table bbs(
-				bbsid number primary key, 
+				bbsid number primary key,
 				bbstitle varchar2(50),
 				userid varchar2(20),
 				bbsdate date,
