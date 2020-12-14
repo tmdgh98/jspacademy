@@ -18,11 +18,11 @@
  *
  */
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
+ const HDWalletProvider = require('@truffle/hdwallet-provider');
 // const infuraKey = "fj4jll3k.....";
 //
 // const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
+ const mnemonic = "used doctor polar volume planet wreck manual wine diamond decorate unit rookie";
 
 module.exports = {
   /**
@@ -47,6 +47,14 @@ module.exports = {
       port: 7545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
      },
+	ropsten : {
+		provier : function(){
+			return new HDWalletProvider(mnemonic,
+			"https://ropsten.infura.io/v3/2bde858b16e144288af99e97d88c269f");
+		},
+		network_id :3,
+		gas : 500000
+	},
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port

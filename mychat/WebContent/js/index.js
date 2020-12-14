@@ -74,7 +74,7 @@ App={
 			});
 		});*/
 	}
-}
+};
 
 $(function(){
 	App.initWeb3();
