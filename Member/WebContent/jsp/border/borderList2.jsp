@@ -81,25 +81,26 @@
 	let input = "<c:out value='${input}' />";
 	
 	if($("#hiddenSearch").val()!=""){
+		console.log(select, input)
 		$("#search-select").val(select);
 		$("#search-input").val(input);
 	}
 	
 	function search1(){
 		$("#hiddenSearch").val("ing");
-		$("npage").val($("#pageNum").val());
-		$("#hiddenForm").submit();
+		let n =$("#pageNum").val();
+		gogo(n,1)
 	}
 	
 	function pageNum(){
-		$("npage").val($("#pageNum").val());
-		$("#hiddenForm").submit(); 
+		let n =$("#pageNum").val();
+		gogo(n,1);
 	}
 	
 	function movePage(page){
-		$("npage").val($("#pageNum").val());
-		$("#page").val(page);
-		$("#hiddenForm").submit(); 
+		let a = $("#pageNum").val();
+		let b = page;
+		gogo(a,b)
 	}
 	
 	function paging(str){
@@ -121,6 +122,23 @@
 		}else if(str=="last"){
 			$("#page").val(lastPage);
 		}
+		let a = $("#pageNum").val()
+		let b = $("#page").val()
+		gogo(a,b)
+			/* let page = $("#page").val();
+			$.ajax({
+			url : 'List.ajax',
+			type : 'post',
+			data : {
+				page : page
+			},
+			success : function(data){
+				
+			}
+		})  */
+	}
+	
+	function gogo(a,b){
 		$("#hiddenForm").submit(); 
 	}
 </script>

@@ -42,6 +42,9 @@
 			
 		</table>
 		<input type="button" value="이 전" onclick="paging('minus')" class="btn btn-success btn-arrow-left">
+		<c:forEach begin="1" end="${lastPage }" step="1" varStatus="a">
+			<a href="#" onclick="movePage(${a.index})"> ${a.index} </a>
+		</c:forEach>
 		<input type="button" value="다 음" onclick="paging('plus')" class="btn btn-success btn-arrow-left">
 		<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
 		
@@ -92,6 +95,11 @@
 			} 
 		}
 		
+		$("#hiddenForm").submit(); 
+	}
+	
+	function movePage(page){
+		$("#page").val(page);
 		$("#hiddenForm").submit(); 
 	}
 </script>
