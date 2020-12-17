@@ -46,7 +46,7 @@ public class List extends HttpServlet {
 			pageNumber--;
 		}
 		String search = null;
-		if(request.getParameter("hiddenSearch")!=null) {;
+		if(request.getParameter("hiddenSearch")!=null) {
 			search = request.getParameter("hiddenSearch");
 			String select = request.getParameter("search-select");
 			String content = request.getParameter("search-input");

@@ -10,7 +10,7 @@
 <body>
 	<div align="center">
 		<h1>글 수 정</h1>
-		<form action="/Board/BorderEdit.do" method="post" id="frm" name="frm">
+		<form action="/Member/BorderEdit.do" method="post" id="frm" name="frm">
 			<table border="1">
 				<tr>
 					<th width="100px">작성자</th>

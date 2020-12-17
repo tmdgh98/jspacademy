@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+
 import co.ho.border.vo.BorderVo;
 import co.ho.common.DAO;
 
@@ -220,5 +221,63 @@ public class BorderDao extends DAO{
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public int searchLastPage(String select, String text) {
+		int n = 0;
+		String lastPage = "select rownum " + 
+				" from border"+ 
+				" where "+ select +" like ? " + 
+				" order by 1 desc";
+		text = "%"+text+"%";
+		try {
+			psmt = conn.prepareStatement(lastPage);
+			psmt.setString(1, text);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				n = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(n);
+		
+		return n;
+	}
+
+	public ArrayList<BorderVo> search(String select, String content, int page, int pageNum) {
+		ArrayList<BorderVo> list = new ArrayList<BorderVo>();
+		String sql = "select b.*  from(  select a.*, rownum rn from("
+				+ "   select * "
+				+ "   from border"
+				+ "   where "+ select +" like ?"
+				+ "   order by 1 desc"
+				+ "   ) a ) b where rn between ? and ?" ;
+		content = "%"+content+"%";
+		
+		System.out.println(select + content);
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, content);
+			psmt.setInt(2, (page - 1)*pageNum+1);
+			psmt.setInt(3, page*pageNum);
+			rs= psmt.executeQuery();
+			while(rs.next()) {
+				BorderVo vo = new BorderVo();
+				vo.setBorderId(rs.getInt("borderid"));
+				vo.setBorderWrite(rs.getString("borderwriter"));
+				vo.setBorderTitle(rs.getString("bordertitle"));
+				vo.setBorderContent(rs.getString("bordercontent"));
+				vo.setBorderDate(rs.getDate("borderdate"));
+				vo.setBorderHit(rs.getInt("borderhit"));
+				list.add(vo);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
 	}
 }

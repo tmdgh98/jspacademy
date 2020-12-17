@@ -70,11 +70,10 @@
 		console.log(select, input)
 		$("#search-select").val(select);
 		$("#search-input").val(input);
-	
 	}
 	
 	function search(){
-			$("#hiddenSearch").val("ing");
+		$("#hiddenSearch").val("ing");
 	}
 	
 	function paging(str){
@@ -94,7 +93,6 @@
 		}
 		
 		$("#hiddenForm").submit(); 
-			
 	}
 </script>
 </body>

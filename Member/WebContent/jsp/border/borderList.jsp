@@ -47,7 +47,9 @@
 				</select>
 				<input type="button" value="첫페이지" onclick="paging('first')">
 				<input type="button" value="이 전" onclick="paging('minus')">
-				<input type="text" id="page" value="${page }">
+				<c:forEach begin="1" end="${lastPage }" step="1" varStatus="a">
+					<a href="#" onclick="movePage(${a.index})">${a.index}</a>
+				</c:forEach>
 				<input type="button" value="다 음" onclick="paging('plus')">
 				<input type="button" value="마지막페이지" onclick="paging('last')">
 				<input type="button" value="글 쓰 기" onclick="location.href='jsp/border/borderInput.jsp'">
@@ -55,30 +57,50 @@
 		</tr>
 		<tr>
 			<td colspan=5 align="right">
-				<form action="/Member/Search.do" method="post" id="searchFrm">
-					<select id="searchRange">
-						<option value="title">제목</option>
-						<option value="content">내용</option>
-						<option value="writer">작성자</option>
+				<form action="/Member/BorderList.do" method="post" id="hiddenForm">
+					<select id="searchRange" name="searchRange">
+						<option value="bordertitle">제목</option>
+						<option value="bordercontent">내용</option>
+						<option value="borderwriter">작성자</option>
 					</select>
+					<input type="hidden" id="page" name="inpage" value="${page }">
+					<input type="hidden" id="npage" name="npage" value="${pageNum }">
+					<input type="hidden" id="hiddenSearch" name="hiddenSearch" value="${search }">
 					<input type="text" id="search" name="search" >
-					<input type="submit" value="검색">
+					<input type="button" value="검색" onclick="search1()">
 				</form>
 			</td>
 		</tr>
 	</table>
-	<form action = "/Member/BorderList.do" method="post" style="display:none;" id="hiddenForm">
-		<input type="text" id="inpage" name="inpage">
-		<input type="text" id="npage" name="npage">
-	</form>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$("#pageNum").val("<c:out value='${pageNum}' />")
 	$("#pageNum").on("change",pageNum)
+	let select = "<c:out value='${select}' />";
+	let input = "<c:out value='${input}' />";
+	
+	if($("#hiddenSearch").val()!=""){
+		console.log(select, input)
+		$("#search-select").val(select);
+		$("#search-input").val(input);
+	}
+	
+	function search1(){
+		$("#hiddenSearch").val("ing");
+		let n =$("#pageNum").val();
+		gogo(n,1)
+	}
+	
 	function pageNum(){
 		let n =$("#pageNum").val();
 		gogo(n,1);
+	}
+	
+	function movePage(page){
+		let a = $("#pageNum").val();
+		let b = page;
+		gogo(a,b)
 	}
 	
 	function paging(str){
@@ -117,8 +139,6 @@
 	}
 	
 	function gogo(a,b){
-		$("#npage").val(a);
-		$("#inpage").val(b);
 		$("#hiddenForm").submit(); 
 	}
 </script>
