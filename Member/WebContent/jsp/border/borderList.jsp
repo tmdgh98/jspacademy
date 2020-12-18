@@ -10,6 +10,9 @@
 <title>Insert title here</title>
 <style>
 	tr.m:hover {background-color:#ffff00;}
+	.now{
+		background-color: lightblue;
+	}
 </style>
 </head>
 <body>
@@ -48,7 +51,12 @@
 				<input type="button" value="첫페이지" onclick="paging('first')">
 				<input type="button" value="이 전" onclick="paging('minus')">
 				<c:forEach begin="1" end="${lastPage }" step="1" varStatus="a">
-					<a href="#" onclick="movePage(${a.index})">${a.index}</a>
+					<c:if test="${a.index eq page }">
+						<a href="#" onclick="movePage(${a.index})" class="now">${a.index}</a>
+					</c:if>
+					<c:if test="${a.index ne page }">
+						<a href="#" onclick="movePage(${a.index})">${a.index}</a>
+					</c:if>
 				</c:forEach>
 				<input type="button" value="다 음" onclick="paging('plus')">
 				<input type="button" value="마지막페이지" onclick="paging('last')">
@@ -76,28 +84,29 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$("#pageNum").val("<c:out value='${pageNum}' />")
-	$("#pageNum").on("change",pageNum)
+	$("#npage").val($("#pageNum").val());
+	$("#pageNum").on("change",pageNumber)
 	let select = "<c:out value='${select}' />";
 	let input = "<c:out value='${input}' />";
 	
+	
 	if($("#hiddenSearch").val()!=""){
-		$("#search-select").val(select);
-		$("#search-input").val(input);
+		$("#searchRange").val(select);
+		$("#search").val(input);
 	}
 	
 	function search1(){
 		$("#hiddenSearch").val("ing");
-		$("npage").val($("#pageNum").val());
 		$("#hiddenForm").submit();
 	}
 	
-	function pageNum(){
-		$("npage").val($("#pageNum").val());
+	function pageNumber(){
+		$("#npage").val($("#pageNum").val());
+		$("#page").val(1);
 		$("#hiddenForm").submit(); 
 	}
 	
 	function movePage(page){
-		$("npage").val($("#pageNum").val());
 		$("#page").val(page);
 		$("#hiddenForm").submit(); 
 	}

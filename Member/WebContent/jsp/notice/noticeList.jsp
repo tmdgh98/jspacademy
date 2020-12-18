@@ -40,7 +40,7 @@
 		<br />
 		<div>
 			<form action="#" method="post" id="frm" name="frm">
-				<input type="hidden" id="no" name="no">
+				<input type="hidden" id="no" name="no" value="${vo.noticeId }">
 				<c:if test="${auth == 'admin' }">
 				<input type="button" value="글쓰기" onclick="location.href='jsp/notice/noticeForm.jsp'">
 				</c:if>

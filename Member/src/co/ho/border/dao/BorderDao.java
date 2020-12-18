@@ -208,7 +208,6 @@ public class BorderDao extends DAO{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println();
 		return n;
 	}
 
@@ -241,7 +240,6 @@ public class BorderDao extends DAO{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(n);
 		
 		return n;
 	}
@@ -256,7 +254,6 @@ public class BorderDao extends DAO{
 				+ "   ) a ) b where rn between ? and ?" ;
 		content = "%"+content+"%";
 		
-		System.out.println(select + content);
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, content);

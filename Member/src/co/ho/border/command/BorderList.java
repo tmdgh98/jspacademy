@@ -22,15 +22,13 @@ public class BorderList implements BorderCommand {
 		int page = 1;
 		int pageNum =10;
 		int lastPage = dao.lastPage();
-		System.out.println(1+" "+request.getParameter("inpage")+ " "+request.getParameter("npage"));
 		if(!(request.getParameter("inpage")==null||request.getParameter("inpage")=="")) {
 		  pageNum= Integer.parseInt(request.getParameter("npage")); 
 		  page = Integer.parseInt(request.getParameter("inpage"));
 		}
 		ArrayList<BorderVo> list;
 		String search = null;
-		System.out.println(2+" "+request.getParameter("hiddenSearch"));
-		if(request.getParameter("hiddenSearch")==null || request.getParameter("hiddenSearch")=="") {
+		if(request.getParameter("hiddenSearch")==null||request.getParameter("hiddenSearch")=="") {
 			lastPage = dao.lastPage();
 			list = dao.selectAll(page,pageNum);
 		}else {
@@ -41,7 +39,7 @@ public class BorderList implements BorderCommand {
 			request.setAttribute("input", content);
 			lastPage = dao.searchLastPage(select,content);
 			list = dao.search(select, content, page, pageNum);
-			System.out.println("search");
+			System.out.println("검색할때만 떠야댐 근데 계속뜨네? .....");
 		}
 			
 		lastPage = (lastPage-1)/pageNum+1;
