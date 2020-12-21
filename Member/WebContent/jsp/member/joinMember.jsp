@@ -19,6 +19,7 @@
 						<th width="100">아 이 디</th>
 						<td width="250">
 							<input type="text" id="mid" name="mid" size="20" placeholder="아이디">
+							<input type="hidden" id="idck" value="N">
 							<input type="button" onclick="idCheck()" value="중복확인">
 						</td>
 					</tr>
@@ -44,7 +45,7 @@
 				</div>
 				<div>
 					<!-- <input type="submit" value="로그인"> -->
-					<input type="button" value="로그인" onclick ="gogo()">
+					<input type="submit" value="로그인" onclick ="return gogo()">
 					<input type="button" value="취 소" onclick ="location='/Member/index.jsp'">
 				</div>
 			</form>
@@ -55,10 +56,16 @@
 			console.log($("#mid").val(),$("#password").val())
 			if($("#mid").val()=="" || $("#name").val()=="" || $("#password").val()=="" || $("#password2").val()==""){
 				alert("모든 항목을 입력해 주세요");
+				return false;
 			}else if($("#password").val()!=$("#password2").val()){
 				alert("비밀번호와 비밀번호확인이 같아야합니다.");
+				return false;
+			}else if($("#idck").val()=="N"){
+				alert("ID중복확인을 해주세요.");
+				return false;
 			}else{
-				frm.submit();
+				/* frm.submit(); */
+				return true;
 			}
 		}
 		function idCheck(){
@@ -74,6 +81,7 @@
 					success : function(data){
 						console.log(data);
 						if(data=="OK"){
+							$("#idck").val("Y");
 							alert("사용가능한 아이디입니다.");
 						}else{
 							alert("이미 사용중인 아이디 입니다.");
